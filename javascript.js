@@ -4,8 +4,8 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.charAt(0).toUpperCase()
-                    + playerSelection.slice(1).toLowerCase();
+    playerSelection = playerSelection.charAt(0).toUpperCase() +
+                      playerSelection.slice(1).toLowerCase();
     if (playerSelection === computerSelection) {
         return 'You Tie!';
     }

@@ -1,5 +1,5 @@
 function getComputerChoice() {
-    let choices = ['Rock', 'Paper', 'Scissors'];
+    const choices = ['Rock', 'Paper', 'Scissors'];
     return choices[Math.floor(Math.random() * choices.length)];
 }
 
@@ -7,7 +7,7 @@ function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
     computerSelection = computerSelection;
     if (playerSelection === computerSelection) {
-        return 'Tie!';
+        return 'You Tie!';
     }
     switch (playerSelection + computerSelection) {
         case 'RockScissors':
@@ -23,6 +23,27 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-const playerSelection = prompt();
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+    while (Math.max(playerScore, computerScore) < 3) {
+        const playerSelection = prompt();
+        const computerSelection = getComputerChoice();
+        const result = playRound(playerSelection, computerSelection);
+        console.log(result);
+        if (result.charAt(4) === 'W') {
+            playerScore++;
+        }
+        else if (result.charAt(4) == 'L') {
+            computerScore++;
+        }
+    }
+    if (playerScore > computerScore) {
+        return 'Human wins!';
+    }
+    else {
+        return 'Computer wins!';
+    }
+}
+
+console.log(game());

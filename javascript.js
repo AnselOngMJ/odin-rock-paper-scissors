@@ -26,44 +26,56 @@ function playRound(playerSelection, computerSelection) {
 function game() {
     let playerScore = 0;
     let computerScore = 0;
-    while (Math.max(playerScore, computerScore) < 3) {
-        const playerSelection = prompt();
-        const computerSelection = getComputerChoice();
-        const result = playRound(playerSelection, computerSelection);
-        console.log(result);
-        if (result.charAt(4) === 'W') {
-            playerScore++;
+
+    const body = document.querySelector('body');
+    const rock = document.createElement('button');
+    const paper = document.createElement('button');
+    const scissors = document.createElement('button');
+    const results = document.createElement('div');
+    const scores = document.createElement('div');
+    const log = document.createElement('div');
+
+    rock.textContent = 'Rock';
+    rock.value = 'Rock';
+    paper.textContent = 'Paper';
+    paper.value = 'Paper';
+    scissors.textContent = 'Scissors';
+    scissors.value = 'Scissors';
+    results.append(scores, log);
+    body.append(rock, paper, scissors, results);
+
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const line = document.createElement('p');
+            const result = playRound(button.value, getComputerChoice());
+            if (result.charAt(4) === 'W') {
+                playerScore++;
+            }
+            else if (result.charAt(4) == 'L') {
+                computerScore++;
+            }
+            scores.textContent = `Player Score: ${playerScore},
+                                  Computer Score: ${computerScore}`;
+            line.textContent = result;
+            log.append(line);
+            checkScore();
+        });
+    });
+
+    function checkScore() {
+        if (Math.max(playerScore, computerScore) === 5) {
+            if (playerScore > computerScore) {
+                log.append('Human wins!');
+            }
+            else {
+                log.append('Computer wins!');
+            }
+            rock.disabled = true;
+            paper.disabled = true;
+            scissors.disabled = true;
         }
-        else if (result.charAt(4) == 'L') {
-            computerScore++;
-        }
-    }
-    if (playerScore > computerScore) {
-        return 'Human wins!';
-    }
-    else {
-        return 'Computer wins!';
     }
 }
 
-const body = document.querySelector('body');
-const rock = document.createElement('button');
-const paper = document.createElement('button');
-const scissors = document.createElement('button');
-
-rock.textContent = 'Rock';
-rock.value = 'Rock';
-paper.textContent = 'Paper';
-paper.value = 'Paper';
-scissors.textContent = 'Scissors';
-scissors.value = 'Scissors';
-body.append(rock, paper, scissors);
-
-const buttons = document.querySelectorAll('button');
-buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        console.log(playRound(button.value, getComputerChoice()));
-    });
-});
-
-//console.log(game());
+game();
